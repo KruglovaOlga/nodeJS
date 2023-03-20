@@ -1,5 +1,7 @@
 const User = require('../models/user.model')
 
+const logger = require('../logger/logger');
+
 exports.findAll = function(req, res)  {
      console.log("Find All users")
 
@@ -9,10 +11,15 @@ exports.findAll = function(req, res)  {
             console.log('Problem in reading users', err)
         } else {
             res.status(200).json({status: true, data: results})
+            //write log file to mongoDB
             console.log('Succsses in reading users')
+            logger.info("Success in reading all users")
+            logger.warn("Warn in reading all users");
+            logger.error("Error in reading all users");
+            logger.debug("Debug in reading all users");
         }
-    })   
-}
+    });   
+};
 
 exports.findOne = function (req, res) {
 
