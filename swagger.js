@@ -19,7 +19,6 @@ exports.options = {
         {
             "name": "Users",
             "description": "API for users"
-
         },
         {
             "name": "Users and Products",
