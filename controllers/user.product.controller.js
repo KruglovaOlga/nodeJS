@@ -7,7 +7,7 @@ exports.findOne = function(req, res) {
         if (err) {
             res.json({status: false, data: err})
         } else {
-            res.json({status: true , data: result})
+            res.json({status: true, data: result})
         }
     })
 }

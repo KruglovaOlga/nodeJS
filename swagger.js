@@ -6,7 +6,7 @@ exports.options = {
     "definitions": {
         User: m2s(User),
         Product: m2s(Product)
-    }
+    },
     "swagger": "2.0",
     "info": {
         "version": "1.0.0",
@@ -42,7 +42,7 @@ exports.options = {
                         "required": true,
                         "description":"Username of user",
                     }
-                ]
+                ],
                 "summary": "Get all users from system",
                 "responses": {
                     "200": {
@@ -52,6 +52,38 @@ exports.options = {
                         }
                     }
                 }
+            }
+        },
+        "/api/user/create":{
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "description": "Create new user in app",
+                "schema": {
+                    "type": "object",
+                    "parameters": [
+                    {
+                        "username": { "type": string },
+                        "password": { "type": string },
+                        "name": { "type": string },
+                        "surname": { "type" : string },
+                        "email" : { "type" : string },
+                        "address": { 
+                            "type": "object",
+                            "properties": {
+                                "area": { "type" : string },
+                                "road": { "type" : string }
+                            }
+                        },
+                        "phone": {
+                            "type": "array",
+                            "items": {
+                                "type"
+                            }
+                        }
+                    }
+                ]
             }
         }
     }
