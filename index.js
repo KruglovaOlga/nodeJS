@@ -3,8 +3,9 @@ const app = express()
 const port = 3000
 
 const bodyParser = require('body-parser')
+
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: true }))
 
 const mongoose = require('mongoose')
 require("dotenv").config()
@@ -22,8 +23,7 @@ mongoose.connect(
         } else {
             console.log("Connected to MongoDB")
         }
-    } 
-
+    }
 )
 
 const user = require("./routes/user.routes")
@@ -31,7 +31,13 @@ const userProduct = require("./routes/user.product.routes")
 
 app.use('/api/userproducts', userProduct)
 app.use('/api/user', user)
-app.use(  '/api-docs',  swaggerUi.serve,  swaggerUi.setup(swaggerDocument.options));
+
+app.use( 
+    '/api-docs',
+    swaggerUi.serve, 
+    swaggerUi.setup(swaggerDocument.options)
+);
+
 app.listen(port, () => {
     console.log(`Server is listening in port ${port}`)
 })

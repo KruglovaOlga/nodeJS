@@ -26,10 +26,26 @@ exports.options = {
         }
     ],
     "schemes": ["http"],
-    "consumes": ["applicatio/json"],
+    "consumes": ["application/json"],
     "produces": ["application/json"],
     "paths": {
         "/api/user/findAll": {
+            "get":{
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get all users in system",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/findOne/{username}":{
             "get":{
                 "tags": [
                     "Users"
@@ -40,17 +56,18 @@ exports.options = {
                         "in":"path",
                         "required": true,
                         "description":"Username of user",
+                        "type": "string"
                     }
                 ],
-                "summary": "Get all users from system",
+                "summary": "Get user from system",
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "User found",
                         "schema": {
-                            "$ref":"#/definitions/User"
+                            "$ref": "#/definitions/User"
                         }
                     }
-                }
+                }              
             }
         },
         "/api/user/create":{
@@ -59,30 +76,131 @@ exports.options = {
                     "Users"
                 ],
                 "description": "Create new user in app",
-                "schema": {
-                    "type": "object",
-                    "parameters": [
-                    {
-                        "username": { "type": string },
-                        "password": { "type": string },
-                        "name": { "type": string },
-                        "surname": { "type" : string },
-                        "email" : { "type" : string },
-                        "address": { 
-                            "type": "object",
-                            "properties": {
-                                "area": { "type" : string },
-                                "road": { "type" : string }
-                            }
+                "parameters": [{
+                    "name": "Create user parameters",
+                    "in": "body",
+                    "description": "Users parameters that will create",
+                    "schema": {
+                        //"$ref": "#/definitions/User"
+                        "type": "object",
+                        "properties": {
+                            "username": { "type": string },
+                            "password": { "type": string },
+                            "name": { "type": string },
+                            "surname": { "type" : string },
+                            "email" : { "type" : string },
+                            "address": {
+                                "type": "object",
+                                "properties": {
+                                    "area": { "type" : string },
+                                    "road": { "type" : string }
+                                },
+                            },
+                            "phone": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties":{
+                                        "type":{"type": "string"},
+                                        "number": {"type": "string"}
+                                    },
+                                },
+                            },
                         },
-                        "phone": {
-                            "type": "array",
-                            "items": {
-                                "type"
-                            }
-                        }
+                        "required": ["username", "email"]
                     }
-                ]
+                }],
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "New user has been created",
+                        //"schema" : {
+                            //"$ref": "#/definitions/User"
+                        //}
+                    }
+                }
+            }
+        },
+        '/api/user/update' :{
+            "patch": {
+                "tags":[
+                    "Users"
+                ],
+                "description": "Update user in system",
+                "parameters":[{
+                    "name": "update user in system",
+                    "in": "body",
+                    "description": "User that we will update",
+                    "schema": {
+                        "type":"object",
+                        "properties": {
+                            "username": { "type": string },
+                            "name": { "type": string },
+                            "surname": { "type" : string },
+                            "email" : { "type" : string },
+                            "address": {
+                                "type": "object",
+                                "properties": {
+                                    "area": { "type" : string },
+                                    "road": { "type" : string }
+                                },
+                            },
+                            "phone": {
+                                "type": "array",
+                                "items": {
+                                    "type":"object",
+                                    "properties":{
+                                        "type":{"type": "string"},
+                                        "number": {"type": "string"}
+                                    },
+                                },
+                            },
+                        },
+                        "required": ["email"]
+                    }
+                }],
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "Updated user"
+                    }                
+                }
+            }
+        },
+        "/api/user/delete/{username}":{
+            "delete":{
+                "tags":[
+                    "Users"
+                ],
+                "description":"Deletes a user from the system",
+                "parameters":[{
+                    "name": "username",
+                    "in":"path",
+                    "description": "Username that will be deleted"
+                }],
+                "responses":{
+                    "200": {
+                        "description" : "Deleted user"
+                    }
+                }
+            }
+        },
+        '/api/userproduct/findone/{username}' :{
+            "get": {
+                "tags" : [
+                    "Users and Products"
+                ],
+                "parameters": [{
+                    "name": "username",
+                    "in":"path",
+                    "description": "Find user's products",
+                    "type" : "string"
+                }],
+                "responses":{
+                    "200": {
+                        "description" : "User's products"
+                    }
+                }                
             }
         }
     }
