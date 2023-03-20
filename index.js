@@ -29,7 +29,6 @@ mongoose.connect(
 const user = require("./routes/user.routes")
 const userProduct = require("./routes/user.product.routes")
 
-
 app.use('/api/userproducts', userProduct)
 app.use('/api/user', user)
 app.use(  '/api-docs',  swaggerUi.serve,  swaggerUi.setup(swaggerDocument.options));
